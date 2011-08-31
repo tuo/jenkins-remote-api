@@ -12,7 +12,7 @@ module Ci
 
     def ci_address
       unless @ci_address.end_with?("/")  
-          @ci_address = @ci_address + "/"
+          @ci_address += "/"
       end
       @ci_address
     end
