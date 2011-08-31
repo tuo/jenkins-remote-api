@@ -1,18 +1,20 @@
 module Ci
   class Jenkins
     include LibXML  
-  
-    def self.set_ci_addr(url)
-      @@ci_addr = url.end_with?("/") ? url : url + "/"
+    
+    attr_accessor :ci_address
+    
+    def initialize url
+      @ci_address = url
     end
 
-    def self.ci_addr
-      @@ci_addr
+    def ci_address
+      @ci_address
     end
   
-    def self.list_all_job_names
+    def list_all_job_names
       xml = ""
-      Mechanize.new.get(ci_addr + "api/xml") do |page|
+      Mechanize.new.get(ci_address + "api/xml") do |page|
         xml = page.body
       end
       parser = LibXML::XML::Parser.string(xml)  
