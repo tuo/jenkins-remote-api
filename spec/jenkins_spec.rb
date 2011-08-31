@@ -18,7 +18,33 @@ describe Ci::Jenkins do
   it "should get all job's names for specific ci" do 
     mechanize = mock("Mechanize")
     Mechanize.stub(:new).and_return(mechanize)
-    xml = <<EOF
+    result = mock("some xml ouput")
+    result.stub(:body).and_return(legal_xml_source)
+    mechanize.should_receive(:get).with(ci_url + "api/xml").and_yield(result)
+    jenkins.list_all_job_names.should == ["analytics-server", "apitest"]
+  end
+  
+  it "should prompt network problem info when mechanize can't get right response" do 
+    mechanize = mock("Mechanize")
+    Mechanize.stub(:new).and_return(mechanize)
+    error_page = mock("some error page")
+    error_page.stub(:code).and_return("403 error,lost connection")
+    mechanize.stub(:get).and_raise(Mechanize::ResponseCodeError.new(error_page))
+    expect {
+      jenkins.list_all_job_names
+    }.to raise_exception("Error in grabbing xml of #{ci_url}/api/xml due to network problem.")
+
+    
+    # mechanize = mock("Mechanize")
+    # Mechanize.stub(:new).and_return(mechanize)
+    # mechanize.should_receive(:get).with(ci_url + "api/xml").and_raise(Mechanize::ResponseCodeError)
+    # puts jenkins.list_all_job_names
+    
+  end
+  
+  
+  def legal_xml_source
+        xml = <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <hudson>
   <assignedLabel/>
@@ -38,9 +64,6 @@ describe Ci::Jenkins do
   </job>
 </hudson>
 EOF
-    result = mock("some xml ouput")
-    result.stub(:body).and_return(xml)
-    mechanize.should_receive(:get).with(ci_url + "api/xml").and_yield(result)
-    jenkins.list_all_job_names.should == ["analytics-server", "apitest"]
+    xml
   end
 end

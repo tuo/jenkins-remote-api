@@ -10,3 +10,7 @@ Feature: Jenkins
 	Scenario: Get list all job names for specific jenkins ci
 		When I run `jenkins list_all_job_names --ci_address http://ci.jruby.org/view/Ruboto/`
 		Then I should see job names "ruboto-core, ruboto-core_jruby_master, ruboto-core_pads, ruboto-core_pads_jruby_master"
+		
+	Scenario: Prompt error info when ci address for list all job names has no job infos
+		When I run `jenkins list_all_job_names --ci_address http://www.google.com/`
+		Then the output should contain "Error in grabbing xml of http://www.google.com//api/xml due to network problem."
