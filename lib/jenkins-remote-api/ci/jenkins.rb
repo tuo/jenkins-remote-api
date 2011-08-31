@@ -5,10 +5,12 @@ module Ci
     attr_accessor :ci_address
     
     def initialize url
+      p "initialize #{url}================"
       @ci_address = url
     end
 
     def ci_address
+      p "get ci_address #{@ci_address}================"
       @ci_address
     end
   
