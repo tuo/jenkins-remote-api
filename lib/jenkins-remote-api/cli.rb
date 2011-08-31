@@ -1,7 +1,7 @@
 require 'thor'
 require "#{File.dirname(__FILE__)}/ci/jenkins.rb"
 
-module Ci
+module Jenkins
   class CLI < Thor
 
     desc "ci_address_to", "Initialize a new jenkins instance"
