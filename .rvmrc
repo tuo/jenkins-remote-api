@@ -1,1 +1,1 @@
-rvm --create use ree-1.8.7@jenkins-remote-api
+rvm --create use ruby-1.9.2@jenkins-remote-api

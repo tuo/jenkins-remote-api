@@ -8,6 +8,12 @@ describe Ci::Jenkins do
   it "should set initialize jenkins instance with ci address" do
     jenkins.ci_address.should == ci_url
   end
+
+  it "should set initialize jenkins instance with ci address" do
+    jenkins_without_end_slash = Ci::Jenkins.new("helloworld.com")
+    jenkins_without_end_slash.ci_address.should == "helloworld.com/"
+  end
+
   
   it "should get all job's names for specific ci" do 
     mechanize = mock("Mechanize")

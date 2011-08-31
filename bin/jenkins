@@ -1,3 +1,0 @@
-#!/usr/bin/env ruby
-require 'jenkins-remote-api/cli'
-Ci::Jenkins::CLI.start
