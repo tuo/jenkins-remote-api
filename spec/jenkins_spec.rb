@@ -1,20 +1,20 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe Jenkins do
+describe Ci::Jenkins do
   
   it "should set Jenkins ci address" do
-    Jenkins.set_ci_addr("http://some_ci_address:8080/")
-    Jenkins.ci_addr.should == "http://some_ci_address:8080/"
+    Ci::Jenkins.set_ci_addr("http://some_ci_address:8080/")
+    Ci::Jenkins.ci_addr.should == "http://some_ci_address:8080/"
   end
 
-  it "should set Jenkins ci address end with slash" do
-    Jenkins.set_ci_addr("http://some_ci_address:8080")
-    Jenkins.ci_addr.should == "http://some_ci_address:8080/"
+  it "should set Ci::Jenkins ci address end with slash" do
+    Ci::Jenkins.set_ci_addr("http://some_ci_address:8080")
+    Ci::Jenkins.ci_addr.should == "http://some_ci_address:8080/"
   end
   
   it "should get all job's names for specific ci" do 
     ci_addr = "http://deadlock.netbeans.org/hudson/"
-    Jenkins.set_ci_addr(ci_addr)
+    Ci::Jenkins.set_ci_addr(ci_addr)
     mechanize = mock("Mechanize")
     Mechanize.stub(:new).and_return(mechanize)
     xml = <<EOF
@@ -40,6 +40,6 @@ EOF
     result = mock("some xml ouput")
     result.stub(:body).and_return(xml)
     mechanize.should_receive(:get).with(ci_addr + "api/xml").and_yield(result)
-    Jenkins.list_all_job_names.should == ["analytics-server", "apitest"]
+    Ci::Jenkins.list_all_job_names.should == ["analytics-server", "apitest"]
   end
 end
