@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'jenkins-remote-api/cli'
+print "helllllllllllllll"
+Ci::CLI.start

@@ -1,3 +1,5 @@
+require 'mechanize'
+require 'libxml'
 module Ci
   class Jenkins
     include LibXML  
