@@ -32,16 +32,40 @@ describe Ci::Jenkins do
     mechanize.stub(:get).and_raise(Mechanize::ResponseCodeError.new(error_page))
     expect {
       jenkins.list_all_job_names
-    }.to raise_exception("Error in grabbing xml of #{ci_url}/api/xml due to network problem.")
-
-    
-    # mechanize = mock("Mechanize")
-    # Mechanize.stub(:new).and_return(mechanize)
-    # mechanize.should_receive(:get).with(ci_url + "api/xml").and_raise(Mechanize::ResponseCodeError)
-    # puts jenkins.list_all_job_names
-    
+    }.to raise_exception("Error in grabbing xml of http://deadlock.netbeans.org/hudson/api/xml due to network problem.")    
   end
-  
+
+  it "should raise error when xml is illegal" do 
+    mechanize = mock("Mechanize")
+    Mechanize.stub(:new).and_return(mechanize)
+    result = mock("some xml ouput")
+  xml = <<EOF
+<html>helloworld
+some test
+EOF
+    result.stub(:body).and_return(xml)
+    mechanize.should_receive(:get).with(ci_url + "api/xml").and_yield(result)
+    expect {
+      jenkins.list_all_job_names
+    }.to raise_exception(
+"Error parsing xml from http://deadlock.netbeans.org/hudson/api/xml due to format.")    
+  end
+    
+  it "should return empty array when page doesn't have job info" do 
+    mechanize = mock("Mechanize")
+    Mechanize.stub(:new).and_return(mechanize)
+    result = mock("some xml ouput")
+    xml = <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<hudson>
+  <assignedLabel/>
+  <mode>NORMAL</mode>
+</hudson>
+EOF
+    result.stub(:body).and_return(xml)
+    mechanize.should_receive(:get).with(ci_url + "api/xml").and_yield(result)
+    jenkins.list_all_job_names.should == []
+  end  
   
   def legal_xml_source
         xml = <<EOF
