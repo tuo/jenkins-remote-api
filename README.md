@@ -48,4 +48,4 @@ If you just want to play around with it, you probably don't even need to go to c
 Contribute
 ------------
 
-Want to contribute? Email test: clarkhtse@gmail.com
+Want to contribute? Email to: clarkhtse@gmail.com
