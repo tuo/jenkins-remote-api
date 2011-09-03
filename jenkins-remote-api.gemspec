@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'mechanize', '~>2.0.1'
   s.add_development_dependency 'libxml-ruby','~>2.2.2'
   s.add_development_dependency 'cucumber'
-  s.add_development_dependency 'aruba'    
+  s.add_development_dependency 'aruba'
+  s.add_development_dependency 'awesome_print'
   s.add_dependency 'thor'    
 end

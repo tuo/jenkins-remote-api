@@ -2,7 +2,7 @@ require 'rubygems'
 require 'mechanize'
 module Ci
     module XmlHelper
-    
+     private
       def retrieve_xml_from(url)
         xml = nil
         begin  
@@ -13,6 +13,10 @@ module Ci
           raise "Error in grabbing xml of #{url} due to network problem."
         end     
         xml 
+      end
+      
+      def url_with_appended_xml url
+         url + "api/xml"
       end
     end
 end
