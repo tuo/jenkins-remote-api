@@ -1,5 +1,4 @@
 require 'libxml'
-require 'ap'
 require "#{File.dirname(__FILE__)}/helper/xml_helper.rb"
 require "#{File.dirname(__FILE__)}/job.rb"
 module Ci  
@@ -57,7 +56,7 @@ module Ci
           url = job_doc.find_first('url').content.strip
           color = job_doc.find_first('color').content.strip
           { 
-            :description => {:name => name, :url => url, :status => get_status_to(color) },
+            :description => {:name => name, :status => get_status_to(color), :url => url },
             :job => Ci::Job.new(url)
           }
         }

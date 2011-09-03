@@ -95,13 +95,13 @@ EOF
         jenkins.jobs_description.should == [
               {
                 :name => "analytics-server", 
+                :status => "disabled",
                 :url => "http://deadlock.netbeans.org/hudson/job/analytics-server/",
-                :status => "disabled"
               }, 
               {
                 :name => "apitest", 
+                :status => "success",
                 :url => "http://deadlock.netbeans.org/hudson/job/apitest/",
-                :status => "success"
               }]
       end    
     end 
@@ -109,7 +109,7 @@ EOF
     it "should get current status of job on ci" do
       jenkins.current_status_on_job("apitest").should == "success"
     end
-           
+
   end
   
   

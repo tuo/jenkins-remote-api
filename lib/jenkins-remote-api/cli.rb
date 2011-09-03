@@ -1,4 +1,5 @@
 require 'thor'
+require 'terminal-table/import'
 require "#{File.dirname(__FILE__)}/ci/jenkins.rb"
 
 module Jenkins
@@ -14,14 +15,21 @@ module Jenkins
     method_option :ci_address, :aliases => '-ci_addr'
     def list_all_job_names
       jenkins = Ci::Jenkins.new options[:ci_address]
-      puts jenkins.list_all_job_names
+
+      puts table(['Job Name'], *(jenkins.list_all_job_names.collect{|name| [name]}))
     end
     
     desc "jobs_description", "List all jobs' description for jenkins ci"
     method_option :ci_address, :aliases => '-ci_addr'
     def jobs_description
       jenkins = Ci::Jenkins.new options[:ci_address]
-      ap jenkins.jobs_description
+      job_description_table = table do |t|
+        t.headings = 'Job Name', 'Job Status', 'Job URL'
+        jenkins.jobs_description.each do |job_desc|
+          t << job_desc.values
+        end
+      end
+      puts job_description_table  
     end
     
     desc "current_status", "Get current status of specific job on jenkins options -ci_addr , -job_name "
@@ -29,7 +37,7 @@ module Jenkins
     method_option :job_name, :aliases => '-job_name'
     def current_status
       jenkins = Ci::Jenkins.new options[:ci_address]
-      ap jenkins.current_status_on_job options[:job_name]
+      puts jenkins.current_status_on_job options[:job_name]
     end
     
        
