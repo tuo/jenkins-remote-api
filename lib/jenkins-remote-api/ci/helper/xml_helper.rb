@@ -10,7 +10,7 @@ module Ci
             xml = page.body
           end
         rescue Mechanize::ResponseCodeError => e
-          raise "Error in grabbing xml of #{url} due to network problem."
+          raise "Error in grabbing xml of #{url}.Pls refer to response code:#{e.response_code}."
         end     
         xml 
       end

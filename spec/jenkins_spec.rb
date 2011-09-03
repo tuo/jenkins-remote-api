@@ -28,11 +28,11 @@ describe Ci::Jenkins do
     mechanize = mock("Mechanize")
     Mechanize.stub(:new).and_return(mechanize)
     error_page = mock("some error page")
-    error_page.stub(:code).and_return("403 error,lost connection")
+    error_page.stub(:code).and_return(404)
     mechanize.stub(:get).and_raise(Mechanize::ResponseCodeError.new(error_page))
     expect {
       jenkins.list_all_job_names
-    }.to raise_exception("Error in grabbing xml of http://deadlock.netbeans.org/hudson/api/xml due to network problem.")    
+    }.to raise_exception("Error in grabbing xml of http://deadlock.netbeans.org/hudson/api/xml.Pls refer to response code:404.")    
   end
 
   it "should raise error when xml is illegal" do 
