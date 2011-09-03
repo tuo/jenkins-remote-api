@@ -24,9 +24,9 @@ module Jenkins
       ap jenkins.jobs_description
     end
     
-    desc "current_status", "Get current status of specific job on jenkins"
+    desc "current_status", "Get current status of specific job on jenkins options -ci_addr , -job_name "
     method_option :ci_address, :aliases => '-ci_addr'
-    method_option :job_name, :aliases => '-j_name'
+    method_option :job_name, :aliases => '-job_name'
     def current_status
       jenkins = Ci::Jenkins.new options[:ci_address]
       ap jenkins.current_status_on_job options[:job_name]

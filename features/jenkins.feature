@@ -13,10 +13,10 @@ Feature: Jenkins
 
 	Scenario: Get all jobs descriptions for specific ci
   	When I run `jenkins jobs_description --ci_address http://ci.jruby.org/view/Ruboto/`
-    Then the output should contain:
+    Then the output should exactly equal to following without caring about space:
          """
          [
-		 	[0] {
+			[0] {
 		          :name => "ruboto-core",
 		           :url => "http://ci.jruby.org/job/ruboto-core/",
 		        :status => "building"
@@ -48,8 +48,5 @@ Feature: Jenkins
     
 	Scenario: Get current build status for job for specific ci
   	When I run `jenkins current_status --job_name ruboto-core --ci_address http://ci.jruby.org/view/Ruboto/`
-    Then the output should contain:
-         """
-		 building
-         """    	    
+    Then the output should contain "building"
 
