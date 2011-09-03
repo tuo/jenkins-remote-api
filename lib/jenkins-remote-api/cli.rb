@@ -15,7 +15,6 @@ module Jenkins
     method_option :ci_address, :aliases => '-ci_addr'
     def list_all_job_names
       jenkins = Ci::Jenkins.new options[:ci_address]
-
       puts table(['Job Name'], *(jenkins.list_all_job_names.collect{|name| [name]}))
     end
     
@@ -37,7 +36,8 @@ module Jenkins
     method_option :job_name, :aliases => '-job_name'
     def current_status
       jenkins = Ci::Jenkins.new options[:ci_address]
-      puts jenkins.current_status_on_job options[:job_name]
+      status = jenkins.current_status_on_job options[:job_name]
+      puts table(['Job Name', 'Status'], *([[options[:job_name], status]]))
     end
     
        
