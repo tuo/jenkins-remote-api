@@ -1,8 +1,9 @@
-require 'mechanize'
 require 'libxml'
-module Ci
+require "#{File.dirname(__FILE__)}/helper/xml_helper.rb"
+module Ci  
   class Jenkins
     include LibXML  
+    include XmlHelper
     
     attr_accessor :ci_address
     
@@ -18,15 +19,8 @@ module Ci
     end
     
     def list_all_job_names
-      xml = ""
       xml_url = ci_address + "api/xml"
-      begin  
-        Mechanize.new.get(xml_url) do |page|
-          xml = page.body
-        end
-      rescue Mechanize::ResponseCodeError => e
-        raise "Error in grabbing xml of #{xml_url} due to network problem."
-      end
+      xml = retrieve_xml_from(xml_url)
       parser = LibXML::XML::Parser.string(xml)        
       begin 
         doc = parser.parse
