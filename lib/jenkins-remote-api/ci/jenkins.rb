@@ -9,7 +9,7 @@ module Ci
     COLOR_STATUS_MAPPING = {
       'blue'              => 'success',
       'red'               => 'failure',
-      'blue_anime'        => 'building-from-failure',
+      'blue_anime'        => 'building',
       'red_anime'         => 'building',      
       'disabled'          => 'disabled',    
       'aborted'           => 'aborted',  
