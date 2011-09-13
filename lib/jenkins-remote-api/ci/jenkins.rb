@@ -7,13 +7,12 @@ module Ci
     include XmlHelper
     
     COLOR_STATUS_MAPPING = {
-      'blue'              => 'success',
-      'red'               => 'failure',
-      'blue_anime'        => 'building',
-      'red_anime'         => 'building',      
-      'disabled'          => 'disabled',    
-      'aborted'           => 'aborted',  
-      'yellow'            => 'unstable', #rare
+      '^blue$'              => 'success',
+      '^red$'               => 'failure',
+      '.*anime$'        => 'building',
+      '^disabled$'          => 'disabled',    
+      '^aborted$'           => 'aborted',  
+      '^yellow$'            => 'unstable', #rare
     }
     
     attr_accessor :ci_address
@@ -79,8 +78,9 @@ module Ci
       end
       
       def get_status_to color
-        raise "This color '#{color}' and its corresponding status hasn't been added to library, pls contact author." unless COLOR_STATUS_MAPPING.has_key?(color)
-        COLOR_STATUS_MAPPING[color]
+        result_color_key = COLOR_STATUS_MAPPING.keys.find { | color_regex | color_regex.match(color)}
+        raise "This color '#{color}' and its corresponding status hasn't been added to library, pls contact author." if result_color_key.nil?
+        COLOR_STATUS_MAPPING[result_color_key]
       end
       
       def get_job_summary_on job_name
