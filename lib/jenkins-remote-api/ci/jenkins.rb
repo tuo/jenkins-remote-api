@@ -9,10 +9,11 @@ module Ci
     COLOR_STATUS_MAPPING = {
       '^blue$'              => 'success',
       '^red$'               => 'failure',
-      '.*anime$'        => 'building',
+      '.*anime$'            => 'building',
       '^disabled$'          => 'disabled',    
       '^aborted$'           => 'aborted',  
       '^yellow$'            => 'unstable', #rare
+      '^grey$'              => 'disabled', 
     }
     
     attr_accessor :ci_address
