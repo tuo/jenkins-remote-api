@@ -1,20 +1,11 @@
 require 'libxml'
 require "#{File.dirname(__FILE__)}/helper/xml_helper.rb"
+require "#{File.dirname(__FILE__)}/helper/color_to_status.rb"
 require "#{File.dirname(__FILE__)}/job.rb"
 module Ci  
   class Jenkins
     include LibXML  
     include XmlHelper
-    
-    COLOR_STATUS_MAPPING = {
-      '^blue$'              => 'success',
-      '^red$'               => 'failure',
-      '.*anime$'            => 'building',
-      '^disabled$'          => 'disabled',    
-      '^aborted$'           => 'aborted',  
-      '^yellow$'            => 'unstable', #rare
-      '^grey$'              => 'disabled', 
-    }
     
     attr_accessor :ci_address
     
@@ -56,7 +47,7 @@ module Ci
           url = job_doc.find_first('url').content.strip
           color = job_doc.find_first('color').content.strip
           { 
-            :description => {:name => name, :status => get_status_to(color), :url => url },
+            :description => {:name => name, :status => Ci::ColorToStatus.get_status_to(color), :url => url },
             :job => Ci::Job.new(url)
           }
         }
@@ -77,13 +68,7 @@ module Ci
       def xml_url_on_ci
         url_with_appended_xml(ci_address)
       end
-      
-      def get_status_to color
-        result_color_key = COLOR_STATUS_MAPPING.keys.find { | color_regex | color_regex.match(color)}
-        raise "This color '#{color}' and its corresponding status hasn't been added to library, pls contact author." if result_color_key.nil?
-        COLOR_STATUS_MAPPING[result_color_key]
-      end
-      
+            
       def get_job_summary_on job_name
         targeting_job_summary = jobs_summary.detect{|job_summary| job_summary[:description][:name] == job_name}
         raise "The job with name 'some job' doesn't exist in job list of #{xml_url_on_ci}.Using jenkins.list_all_job_names to see list." if targeting_job_summary.nil?
