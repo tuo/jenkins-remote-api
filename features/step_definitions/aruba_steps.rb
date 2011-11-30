@@ -15,4 +15,3 @@ Then /^the output should exactly equal to following without caring about space:$
   all_output.to_s.split.join('').should == partial_output.split.join('')
 end
 
-
