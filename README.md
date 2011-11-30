@@ -1,6 +1,8 @@
 Jenkins Remote API
 =============
 
+[![Build Status](https://secure.travis-ci.org/tuo/jenkins-remote-api.png)](http://travis-ci.org/tuo/jenkins-remote-api)
+
 A gem aims at help you consume [remote-access-api](https://wiki.jenkins-ci.org/display/JENKINS/Remote+access+API) offered by [Jenkins](http://jenkins-ci.org/). 
 
 Why

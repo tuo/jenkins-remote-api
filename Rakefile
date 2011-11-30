@@ -17,5 +17,11 @@ Cucumber::Rake::Task.new(:features) do |task|
   task.cucumber_opts = ["features"]
 end
 
+desc "Travis CI task"
+task :travis do |task|
+  Rake::Task["spec"].invoke
+  Rake::Task["features"].invoke
+end
+
 desc "Run all tests"
 task :test => [:spec, :features]
