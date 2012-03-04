@@ -9,8 +9,18 @@ module Ci
     
     attr_accessor :ci_address
     
-    def initialize url
+    def initialize url, auth = {}
       @ci_address = url
+      unless auth.empty?
+        @options = {
+          :username => auth[:username],
+          :password => auth[:password]
+        }
+      end
+    end
+
+    def options
+      @options ||= {}
     end
 
     def ci_address
@@ -56,7 +66,7 @@ module Ci
     
       def cached_xml_doc_of_jobs
         return @jobs_highlevel_xml unless @jobs_highlevel_xml.nil?
-        xml = retrieve_xml_from(xml_url_on_ci)
+        xml = retrieve_xml_from(xml_url_on_ci, options)
         parser = LibXML::XML::Parser.string(xml)        
         begin 
           @jobs_highlevel_xml = parser.parse
