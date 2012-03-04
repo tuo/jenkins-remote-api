@@ -11,28 +11,28 @@ Feature: Jenkins
 		When I run `jenkins list_all_job_names --ci_address http://ci.jruby.org/view/Ruboto/`
 	    Then the output should exactly equal to following without caring about space:
 	         """		
-			+-------------------------------+
-			| Job Name                      |
-			+-------------------------------+
-			| ruboto-core                   |
-			| ruboto-core_jruby_master      |
-			| ruboto-core_pads              |
-			| ruboto-core_pads_jruby_master |
-			+-------------------------------+
+			+--------------------------+
+			| Job Name                 |
+			+--------------------------+
+			| ruboto                   |
+			| ruboto_jruby_master      |
+			| ruboto_pads              |
+			| ruboto_pads_jruby_master |
+			+--------------------------+
 	         """    	    
 
 	Scenario: Get all jobs descriptions for specific ci
 	  When I run `jenkins jobs_description --ci_address http://ci.jruby.org/view/Ruboto/`
 	  Then the output should exactly equal to following without caring about space:
 	         """
-			+-------------------------------+------------+--------------------------------------------------------+
-			| Job Name                      | Job Status | Job URL                                                |
-			+-------------------------------+------------+--------------------------------------------------------+
-			| ruboto-core                   | building   | http://ci.jruby.org/job/ruboto-core/                   |
-			| ruboto-core_jruby_master      | failure    | http://ci.jruby.org/job/ruboto-core_jruby_master/      |
-			| ruboto-core_pads              | building   | http://ci.jruby.org/job/ruboto-core_pads/              |
-			| ruboto-core_pads_jruby_master | failure    | http://ci.jruby.org/job/ruboto-core_pads_jruby_master/ |
-			+-------------------------------+------------+--------------------------------------------------------+
+			+--------------------------+------------+---------------------------------------------------+
+			| Job Name                 | Job Status | Job URL                                           |
+			+--------------------------+------------+---------------------------------------------------+
+			| ruboto                   | success    | http://ci.jruby.org/job/ruboto/                   |
+			| ruboto_jruby_master      | building   | http://ci.jruby.org/job/ruboto_jruby_master/      |
+			| ruboto_pads              | failure    | http://ci.jruby.org/job/ruboto_pads/              |
+			| ruboto_pads_jruby_master | failure    | http://ci.jruby.org/job/ruboto_pads_jruby_master/ |
+			+--------------------------+------------+---------------------------------------------------+
 	         """    	    
 
 	Scenario: Prompt error info when ci address for list all job names has no job infos
@@ -44,14 +44,14 @@ Feature: Jenkins
 		Then the output should contain "Error parsing xml from http://www.baidu.com/api/xml due to format."		
    
 	Scenario: Get current build status for job for specific ci
-	  When I run `jenkins current_status --job_name ruboto-core --ci_address http://ci.jruby.org/view/Ruboto/`
+	  When I run `jenkins current_status --job_name ruboto --ci_address http://ci.jruby.org/view/Ruboto/`
 	  Then the output should exactly equal to following without caring about space:
          """
-				+-------------+----------+
-				| Job Name    | Status   |
-				+-------------+----------+
-				| ruboto-core | building |
-				+-------------+----------+
+				+----------+---------+
+				| Job Name | Status  |
+				+----------+---------+
+				| ruboto   | success |
+				+----------+---------+
          """    	    
 	
 
