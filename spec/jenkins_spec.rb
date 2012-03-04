@@ -9,6 +9,15 @@ describe Ci::Jenkins do
     jenkins.ci_address.should == ci_url
   end
 
+  it "should be able to login to password protected server" do
+    username = 'test'
+    password = 'test2'
+    job_included = 'test_job'
+    protected_ci_url = 'http://example.com'
+    password_protected = Ci::Jenkins.new(ci_url, :username => username, :password => password)
+    #password_protected.list_all_job_names.include?(job_included).should == true
+  end
+
   it "should set initialize jenkins instance with ci address" do
     jenkins_without_end_slash = Ci::Jenkins.new("helloworld.com")
     jenkins_without_end_slash.ci_address.should == "helloworld.com/"
